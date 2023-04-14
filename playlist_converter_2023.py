@@ -27,8 +27,13 @@ def extractPlaylist(file_path):
             res = re.split(keyword2, line)
             res = res[-1][:-4].replace("\\", "/")
             res = re.split(keyword, res)
-            #print((keyword + res[-1]).strip())
-            playlist.append((keyword + res[-1]).strip())            
+            try:
+                res = res[1].split(sep='"')[0]
+            except:
+                continue
+            #print(res)
+            #print((keyword + res).strip())
+            playlist.append((keyword + res).strip())            
 
     playlist_dict['playlist'] = playlist
     playlist_dict['count'] = len(playlist)
@@ -54,7 +59,7 @@ def m3u8towpl(file_path, playlist_dict):
     new_file.close()
     print("Finished!")
     print("Next steps: Create new playlist in WMP, drag folder into new playlist")
-    print("Next steps: Use the change directory function")
+    print("Next steps: Paste playlist from '<playlist_name>_original_path.txt' to the wmp playlist.")
     os.startfile(directory_dst)
     os.startfile(directory_dst + "\\" + os.path.basename(Path(song)))
 
